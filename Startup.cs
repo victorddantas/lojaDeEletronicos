@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using mvc.Repositories;
 using System;
 
 namespace mvc
@@ -29,6 +31,9 @@ namespace mvc
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddDbContext<mvcContext>(options => options.UseSqlServer(connectionString));
 
+            //aplicando a  injeção de dependência para que a instancian da classe que gera o banco seja resposabilidade do asp.net 
+            services.AddTransient<IDataService,DataService>();
+            services.AddTransient<IProdutoRepository,ProdutoRepository>();
 
         }
 
@@ -61,7 +66,7 @@ namespace mvc
 
 
             //esse serviço irá garantir que o banco será criado assim que a aplicação rodar 
-            serviceProvider.GetService<mvcContext>().Database.Migrate();
+            serviceProvider.GetService<IDataService>().InicializaDb();
         }
     }
 }

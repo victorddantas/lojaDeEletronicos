@@ -1,0 +1,43 @@
+[
+  {
+    "Codigo": "001",
+    "Nome": "Celular",
+    "Preco": 10990.00
+  },
+  {
+    "Codigo": "002",
+    "Nome": "Fone bluetooth",
+    "Preco": 119.90
+  },
+  {
+    "Codigo": "003",
+    "Nome": "Ebook Reader",
+    "Preco": 499.90
+  },
+  {
+    "Codigo": "004",
+    "Nome": "Caixa de Som bluetooth",
+    "Preco": 399.90
+  },
+  {
+    "Codigo": "005",
+    "Nome": "Notebook",
+    "Preco": 7999.90
+  },
+  {
+    "Codigo": "006",
+    "Nome": "Smartwatch",
+    "Preco": 5669.90
+  },
+  {
+    "Codigo": "007",
+    "Nome": "Computador",
+    "Preco": 3369.90
+  },
+  {
+    "Codigo": "008",
+    "Nome": "Video Game",
+    "Preco": 4469.90
+  }
+ 
+]
