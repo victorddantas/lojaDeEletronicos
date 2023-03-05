@@ -37,7 +37,7 @@ namespace mvc.Repositories
         {
             //consulta a tabela de pedidos e verifica se o id consta lá, se não cria um novo pedido e retornar
             var pedidoId = GetPedidoId();
-            var pedido = _produtos.Where(p => p.Id == pedidoId).SingleOrDefault(); //o SingleOrDefault irá trazer o dado caso exista, se não trará nulo sem dar erro
+            var pedido = _produtos.Include(p => p.Itens).ThenInclude(i => i.Produto).Where(p => p.Id == pedidoId).SingleOrDefault(); //o SingleOrDefault irá trazer o dado caso exista, se não trará nulo sem dar erro
             
             if (pedido == null)
             {
@@ -61,7 +61,7 @@ namespace mvc.Repositories
             //verificando se o produto existe no banco 
           var produto =  _context.Set<Produto>().Where(p => p.Codigo == codigo).SingleOrDefault();
 
-            if (produto == null )
+            if (produto == null)
             {
                 throw new ArgumentException("Produto não encontrado");
             }
@@ -76,7 +76,7 @@ namespace mvc.Repositories
             if (itemPedido == null)
             {
                 //adicionando item pedido 
-                itemPedido = new ItemPedido(pedido, produto, 1, produto.Preco);s
+                itemPedido = new ItemPedido(pedido, produto, 1, produto.Preco);
                 _context.Set<ItemPedido>().Add(itemPedido);
 
                 _context.SaveChanges();
