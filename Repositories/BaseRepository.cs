@@ -17,7 +17,7 @@ namespace mvc.Repositories
         public BaseRepository(mvcContext context)
         {
             this._context = context;
-            _produtos = context.Set<T>();
+         _produtos = context.Set<T>();
         }
     }
 }

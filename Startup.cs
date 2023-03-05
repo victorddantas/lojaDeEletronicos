@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using mvc.Repositories;
 using mvc.Repositories.Interface;
@@ -25,8 +27,11 @@ namespace mvc
         {
            
             services.AddMvc();
+            services.AddSession(); //mantém o estado entre as páginas controlado pelo setor 
+            services.AddDistributedMemoryCache();//mantém as informações na memória 
             services.AddControllersWithViews();
             services.AddApplicationInsightsTelemetry();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //Definindo o serviço para configuração da conexão com o banco passando a connection string definida no appsettings.json
             string connectionString = Configuration.GetConnectionString("Default");
@@ -56,16 +61,14 @@ namespace mvc
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();   
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Pedido}/{action=Principal}/{id?}");
+                    pattern: "{controller=Pedido}/{action=Principal}/{codigo?}");
             });
 
 

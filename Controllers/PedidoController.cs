@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using mvc.Models;
 using mvc.Repositories.Interface;
 
 namespace mvc.Controllers
@@ -7,11 +8,13 @@ namespace mvc.Controllers
     {
         //criandocampo para acessar o repositório
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IPedidoRepository _pedidoRepository;
 
         //construtor para utilização dos métodos 
-        public PedidoController(IProdutoRepository produtoRepository)
+        public PedidoController(IProdutoRepository produtoRepository, IPedidoRepository pedidoRepository)
         {
             this._produtoRepository = produtoRepository;
+            this._pedidoRepository = pedidoRepository;
         }
 
         public IActionResult Principal()
@@ -19,9 +22,16 @@ namespace mvc.Controllers
             //utilizando o método get proutos para listar os produtos
             return View(_produtoRepository.GetProdutos());  
         }
-        public IActionResult Carrinho()
+        public IActionResult Carrinho(string codigo)
         {
-            return View();
+            //se o id passado for diferente de nulo, adicione um pedido 
+            if (!string.IsNullOrEmpty(codigo))
+            {
+                _pedidoRepository.AddItem(codigo);
+               
+            }
+            Pedido pedido = _pedidoRepository.GetPedido();
+            return View(pedido.Itens);
         }
         public IActionResult Cadastro()
         {
