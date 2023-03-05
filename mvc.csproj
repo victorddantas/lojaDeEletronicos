@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\Logos\" />
-    <Folder Include="wwwroot\images\Produtos\" />
   </ItemGroup>
 
   <ItemGroup>

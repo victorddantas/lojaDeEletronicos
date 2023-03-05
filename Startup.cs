@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using mvc.Repositories;
+using mvc.Repositories.Interface;
 using System;
 
 namespace mvc
@@ -31,9 +32,12 @@ namespace mvc
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddDbContext<mvcContext>(options => options.UseSqlServer(connectionString));
 
-            //aplicando a  injeção de dependência para que a instancian da classe que gera o banco seja resposabilidade do asp.net 
+            //aplicando a  injeção de dependência para que a instancia da classe que gera o banco seja resposabilidade do asp.net 
             services.AddTransient<IDataService,DataService>();
             services.AddTransient<IProdutoRepository,ProdutoRepository>();
+            services.AddTransient<IPedidoRepository,PedidoRepository>();
+            services.AddTransient<IItemPedidoRepository,ItemPedidoRepository>();
+            services.AddTransient<ICadastroRepository,CadastroRepository>();
 
         }
 

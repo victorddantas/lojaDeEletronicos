@@ -1,132 +1,52 @@
-﻿<h3>Catálogo</h3>
+﻿@model List<Produto>;
+
+<h3>Catálogo</h3>
+
+
+@*inserindo código c# para listar os produtos a partir da model*@
 
 <div id="my-carousel" class="carousel slide" data-ride="carousel">
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <div class="row">
-                <div class="col-md-3 col-sm-3 col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <img class="img-produto-carrossel" src="/images/produtos/Celular.jpg" />
-                        </div>
-                        <div class="panel-footer produto-footer">
-                            <div class="produto-nome">Celular</div>
-                            <div><h4><strong>R$ 10990.00</strong></h4></div>
-                            <div class="text-center">
-                                <a href="/" class="btn btn-success">Adicionar</a>
+       
+        @*definindo quantidade de paginas a exibir*@
+        @{
+
+            const int tamanhoPagina = 4;
+            int paginas = (int)Math.Ceiling((double)Model.Count() / tamanhoPagina); /*caso o resultado seja decimal o Ceiling obtém o menor inteiro acima do resultado (o celling exige sempre um double)*/
+
+        }
+        @for (int pagina = 0; pagina < paginas; pagina++) 
+        {
+            <div class="item @(pagina == 0 ? "active" : "")"> @*se a página é igual a zero. Se sim, será retornada a string com o nome da classe do CSS, active e, caso contrário, o retorno será uma string vazia*@
+                <div class="row">
+                    @*inserindo código c# para listar os produtos a partir da model*@
+                    @{
+                        var produtos = Model.Skip(pagina * tamanhoPagina).Take(tamanhoPagina); /*precisaremos pegar os produtos daquela página específica, para o qual chamaremos um método do LINQ com
+                                                                                                Model., pulando a quantidade de elementos correspondente ao número de páginas por meio do método Skip()*/
+                    }
+
+                    @foreach (var produto in produtos)
+                    {
+                        <div class="col-md-3 col-sm-3 col-lg-3">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <img class="img-produto-carrossel" src="/images/produtos/(@produto.Codigo).jpg" />
+                                </div>
+                                <div class="panel-footer produto-footer">
+                                    <div class="produto-nome">@produto.Nome</div>
+                                    <div><h4><strong>@produto.Preco</strong></h4></div>
+                                    <div class="text-center">
+                                        <a href="/" class="btn btn-success">Adicionar</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3 col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <img class="img-produto-carrossel" src="/images/produtos/fone.jpg" />
-                        </div>
-                        <div class="panel-footer produto-footer">
-                            <div class="produto-nome">Fone bluetooth</div>
-                            <div><h4><strong>R$ 119.90</strong></h4></div>
-                            <div class="text-center">
-                                <a href="/" class="btn btn-success">Adicionar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3 col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <img class="img-produto-carrossel" src="/images/produtos/ebookReader.jpg">
-                        </div>
-                        <div class="panel-footer produto-footer">
-                            <div class="produto-nome">Ebook Reader</div>
-                            <div><h4><strong>R$ 499.90</strong></h4></div>
-                            <div class="text-center">
-                                <a href="/" class="btn btn-success">Adicionar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3 col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <img class="img-produto-carrossel" src="/images/produtos/caixaDeSom.jpg" />
-                        </div>
-                        <div class="panel-footer produto-footer">
-                            <div class="produto-nome">Caixa de Som bluetooth</div>
-                            <div><h4><strong>R$ 399.90</strong></h4></div>
-                            <div class="text-center">
-                                <a href="/" class="btn btn-success">Adicionar</a>
-                            </div>
-                        </div>
-                    </div>
+                    }
+
                 </div>
             </div>
-
-
-        </div>
-        <div class="item ">
-            <div class="row">
-                <div class="col-md-3 col-sm-3 col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <img class="img-produto-carrossel" src="/images/produtos/notebook.jpg" />
-                        </div>
-                        <div class="panel-footer produto-footer">
-                            <div class="produto-nome">Notebook</div>
-                            <div><h4><strong>R$ 7999.90</strong></h4></div>
-                            <div class="text-center">
-                                <a href="/" class="btn btn-success">Adicionar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3 col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <img class="img-produto-carrossel" src="/images/produtos/Smartwatch.jpg" />
-                        </div>
-                        <div class="panel-footer produto-footer">
-                            <div class="produto-nome">Smartwatch</div>
-                            <div><h4><strong>R$ 5669.90</strong></h4></div>
-                            <div class="text-center">
-                                <a href="/" class="btn btn-success">Adicionar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3 col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <img class="img-produto-carrossel" src="/images/produtos/computador.jpg" />
-                        </div>
-                        <div class="panel-footer produto-footer">
-                            <div class="produto-nome">Computador</div>
-                            <div><h4><strong>R$ </strong></h4></div>
-                            <div class="text-center">
-                                <a href="/" class="btn btn-success">Adicionar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3 col-lg-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <img class="img-produto-carrossel" src="/images/produtos/videoGame.jpg" />
-                        </div>
-                        <div class="panel-footer produto-footer">
-                            <div class="produto-nome">Video Game</div>
-                            <div><h4><strong>R$ 4469.90</strong></h4></div>
-                            <div class="text-center">
-                                <a href="/" class="btn btn-success">Adicionar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
+        }
     </div>
 
     <!-- Controls -->
