@@ -43,5 +43,13 @@ namespace mvc.Controllers
 
             return View(pedido);
         }
+
+        [HttpPost]
+        public void UpdateQtd([FromBody]ItemPedido itemPedido) //para enviar  as requisições, no parâmetro será enviado um objeto que conterá o id e a quantidade do item (nesse caso será passado no corpo da requisição [FromBody])
+        {
+
+
+        }
+
     }
 }

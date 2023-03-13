@@ -32,6 +32,7 @@ namespace mvc
             services.AddControllersWithViews();
             services.AddApplicationInsightsTelemetry();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddControllersWithViews().AddNewtonsoftJson();
 
             //Definindo o serviço para configuração da conexão com o banco passando a connection string definida no appsettings.json
             string connectionString = Configuration.GetConnectionString("Default");
