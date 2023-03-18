@@ -9,12 +9,14 @@ namespace mvc.Controllers
         //criandocampo para acessar o repositório
         private readonly IProdutoRepository _produtoRepository;
         private readonly IPedidoRepository _pedidoRepository;
+        private readonly IItemPedidoRepository _itemPedidoRepository;   
 
         //construtor para utilização dos métodos 
-        public PedidoController(IProdutoRepository produtoRepository, IPedidoRepository pedidoRepository)
+        public PedidoController(IProdutoRepository produtoRepository, IPedidoRepository pedidoRepository, IItemPedidoRepository itemPedidoRepository)
         {
             this._produtoRepository = produtoRepository;
             this._pedidoRepository = pedidoRepository;
+            this._itemPedidoRepository = itemPedidoRepository;
         }
 
         public IActionResult Principal()
@@ -47,7 +49,7 @@ namespace mvc.Controllers
         [HttpPost]
         public void UpdateQtd([FromBody]ItemPedido itemPedido) //para enviar  as requisições, no parâmetro será enviado um objeto que conterá o id e a quantidade do item (nesse caso será passado no corpo da requisição [FromBody])
         {
-
+            _itemPedidoRepository.updateQtd(itemPedido);
 
         }
 

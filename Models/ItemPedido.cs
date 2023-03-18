@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace mvc.Models
@@ -33,6 +34,12 @@ namespace mvc.Models
             Produto = produto;
             Quantidade = quantidade;
             PrecoUnitario = precoUnitario;
+        }
+
+        //método para atualizar o valor do campo Quantidade 
+        internal void UpdateQtdItem(int quantidade)
+        {
+            Quantidade = quantidade;
         }
     }
 

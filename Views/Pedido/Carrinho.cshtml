@@ -38,14 +38,14 @@
                 <div class="col-md-2 text-center">
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button class="btn btn-default">
+                            <button class="btn btn-default" onclick="carrinho.clickQtdDecremento(this)">
                                 <span class="glyphicon-minus"></span>
                             </button>
                         </span>
                         <input type="text" value="@item.Quantidade"
-                           class="form-control text-center" />
+                           class="form-control text-center" onblur="carrinho.updateTxtQtd(this)" />
                         <span class="input-group-btn">
-                            <button class="btn btn-default" onclick="clickQtd(this)">
+                            <button class="btn btn-default" onclick="carrinho.clickQtdIncremento(this)">
                                 <span class="glyphicon-plus"></span>
                             </button>
                         </span>
@@ -90,31 +90,7 @@
 </div>
 @section scripts
 {
-    <script type="text/javascript">
-       
-        function clickQtd(btn){
-            var linhaDoItem = $(btn).parents('[item-Id]')//acessando linha onde receberemos o id do produto ao clicar no botão (através da hierarquia - atributo pai) 
-            var itemId = $(linhaDoItem).attr('item-Id')//obtendo o id do item através da hierarquia
-            var novaQtde = $(linhaDoItem).find('input').val();//obtendo quantidade atual do item que está abaixo da hierarquia 
-
-            //criando jax que será utilizado na requisição 
+    <script src="~/js/Carrinho.js">
       
-            //definindo o objeto que conterá as informações enviadas
-            var data = {
-                Id: itemId,
-                Quantidade: novaQtde
-            }
-
-            $.ajax({
-
-                url: '/pedido/UpdateQtd',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(data)
-
-            });
-
-            debugger;
-        }
     </script>
 }
