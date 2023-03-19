@@ -59,7 +59,9 @@ namespace mvc.Controllers
             //retornando a view de cadastro 
             return View(pedido.Cadastro);
         }
-        public IActionResult Resumo()
+
+        [HttpPost]
+        public IActionResult Resumo(Cadastro cadastro)
         {
             Pedido pedido = _pedidoRepository.GetPedido();
 
