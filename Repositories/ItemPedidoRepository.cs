@@ -15,30 +15,18 @@ namespace mvc.Repositories
         //Irá passar o contexto para a classe base
         public ItemPedidoRepository(mvcContext context) : base(context)
         { 
+
         }
 
-        //método para atualizar a quantidade no banco 
-
-        public void updateQtd(ItemPedido itemPedido)
+        //busacndo itemPedido por id e retornando para o método de atualização de quantidade 
+        public ItemPedido GetItemPedido(int itemPedidodId)
         {
-            var itemPedidoDB = 
-            _produtos.Where(ip => ip.Id == itemPedido.Id).SingleOrDefault();
+            return _produtos.Where(ip => ip.Id == itemPedidodId).SingleOrDefault();
+        }
 
-
-            if (itemPedidoDB != null && itemPedido.Quantidade > 0)
-            {
-                itemPedidoDB.UpdateQtdItem(itemPedido.Quantidade);
-
-               
-                _context.SaveChanges();
-
-           
-            }
-            else
-            {
-                throw new ArgumentException("A quantidade não pode ser menor ou igual a 0");
-                
-            }
+        public void RemoveItemPedido(int itemPedidoId)
+        {
+            _produtos.Remove(GetItemPedido(itemPedidoId));
         }
     }
 }

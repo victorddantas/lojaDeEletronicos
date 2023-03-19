@@ -7,6 +7,7 @@ class Carrinho {
         let data = this.getData(btn);
         data.Quantidade++;
         this.postCarrinho(data);
+        window.location.reload(true);
        
        /* debugger;*/
 
@@ -27,19 +28,23 @@ class Carrinho {
        
 
     }
+
+
     updateTxtQtd(input) {
 
         let data = this.getData(input);
 
         this.postCarrinho(data);
-
+        window.location.reload(true);
     }
+
+
     getData(element) {
 
         //definindo o objeto que conterá as informações enviadas
         var linhaDoItem = $(element).parents('[item-Id]')//acessando linha onde receberemos o id do produto ao clicar no botão (através da hierarquia - atributo pai) 
         var itemId = $(linhaDoItem).attr('item-Id')//obtendo o id do item através da hierarquia
-        var novaQtde = $(linhaDoItem).find('input').val();//obtendo quantidade atual do item que está abaixo da hierarquia
+        var novaQtde = $(linhaDoItem).find('input').val();//obtendo quantidade atual do item no input que está abaixo da hierarquia
 
         return  {
             Id: itemId,
@@ -47,6 +52,8 @@ class Carrinho {
         };       
 
     }
+
+
     postCarrinho(data) {
 
          //criando ajax que será utilizado na requisição 
@@ -58,10 +65,29 @@ class Carrinho {
             contentType: 'application/json',
             data: JSON.stringify(data)
 
-        }).done(function (response) { location.reload() });
+        }).done(function (response) {
+            let itemPedido = response._itemPedido; //obtendo o itemPedido
+           // debugger
+            let linhaDoItem = $('[item-Id=' + itemPedido.id + ']') //acessando linha onde receberemos o id do produto ao clicar no botão
+           // debugger
+            linhaDoItem.find('input').val(itemPedido.quantidade);//obtendo quantidade atual do item no input que está abaixo da hierarquia
+            linhaDoItem.find('[subtotal]').html((itemPedido.subtotal).duasCasas());//acessando linha onde está o subtotal e alterando html
+
+            let carrinhoViewModel = response.carrinho;
+            $('[numero-itens]').html('Total: ' + carrinhoViewModel.itens.length + ' itens');//acessando linha onde está o numero-itens e alterando html 
+            $('[total]').html((carrinhoViewModel.total).duasCasas());
+
+            if (itemPedido.quantidade == 0) {
+                linhaDoItem.remove();
+            }
+        });
     }
     
 }
 
 var carrinho = new Carrinho();
- 
+
+//formatando número
+Number.prototype.duasCasas = function () {
+    return this.toFixed(2).replace('.',',')
+}

@@ -11,12 +11,15 @@ namespace mvc.Models.ViewModels
         //propriedade para fornecer a lista de intesns de pedido a view 
 
         public IList<ItemPedido> Itens { get; }
+        public ItemPedido PrecoUnitario;
 
 
         public CarrinhoViewModel(IList<ItemPedido> itens)
         {
             Itens = itens;
         }
+
+
 
         //método para calcular o total na view
         

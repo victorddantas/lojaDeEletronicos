@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using mvc.Models;
+using mvc.Models.ViewModels;
 using mvc.Repositories.Interface;
 using System;
 using System.Linq;
@@ -11,10 +12,13 @@ namespace mvc.Repositories
     {
         //Criando campo para acessar o objeto da sessão para obter o id passado na sessão
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IItemPedidoRepository _itemPedidoRepository;
 
-        public PedidoRepository(mvcContext context, IHttpContextAccessor contextAccessor) : base(context)
+        public PedidoRepository(mvcContext context, IHttpContextAccessor contextAccessor, IItemPedidoRepository itemPedidoRepository) : base(context)
         {
-            this._contextAccessor = contextAccessor; 
+            this._contextAccessor = contextAccessor;
+            this._itemPedidoRepository = itemPedidoRepository;
+
         }
 
 
@@ -38,7 +42,7 @@ namespace mvc.Repositories
             //consulta a tabela de pedidos e verifica se o id consta lá, se não cria um novo pedido e retornar
             var pedidoId = GetPedidoId();
             var pedido = _produtos.Include(p => p.Itens).ThenInclude(i => i.Produto).Where(p => p.Id == pedidoId).SingleOrDefault(); //o SingleOrDefault irá trazer o dado caso exista, se não trará nulo sem dar erro
-            
+
             if (pedido == null)
             {
                 pedido = new Pedido();
@@ -49,9 +53,9 @@ namespace mvc.Repositories
                 setPedidoId(pedido.Id);
 
             }
-            
+
             return pedido;
-        
+
         }
 
         //Método para adicionar item no carrinho 
@@ -59,7 +63,7 @@ namespace mvc.Repositories
         public void AddItem(string codigo)
         {
             //verificando se o produto existe no banco 
-          var produto =  _context.Set<Produto>().Where(p => p.Codigo == codigo).SingleOrDefault();
+            var produto = _context.Set<Produto>().Where(p => p.Codigo == codigo).SingleOrDefault();
 
             if (produto == null)
             {
@@ -70,7 +74,7 @@ namespace mvc.Repositories
             var pedido = GetPedido();
 
             //consultando se o item de pedido não existe 
-            var itemPedido = _context.Set<ItemPedido>().Where(i => i.Produto.Codigo == codigo && i.Pedido == pedido).SingleOrDefault(); ;
+            var itemPedido = _context.Set<ItemPedido>().Where(i => i.Produto.Codigo == codigo && i.Pedido == pedido).SingleOrDefault();
 
 
             if (itemPedido == null)
@@ -81,6 +85,33 @@ namespace mvc.Repositories
 
                 _context.SaveChanges();
             }
+        }
+        //método para atualizar a quantidade no banco 
+        public UpdateQtdResponse updateQtd(ItemPedido itemPedido)
+        {
+
+            var itemPedidoDB = _itemPedidoRepository.GetItemPedido(itemPedido.Id);
+
+            if (itemPedidoDB != null)
+            {
+                itemPedidoDB.UpdateQtdItem(itemPedido.Quantidade);
+
+                if (itemPedido.Quantidade == 0 )
+                {
+                    _itemPedidoRepository.RemoveItemPedido(itemPedido.Id);
+                }
+
+                _context.SaveChanges();
+
+
+                //retornando o método UpdateQtdResponse e o carrinhoViewModel para o ajax
+                var carrinho = new CarrinhoViewModel(GetPedido().Itens);
+
+                return new UpdateQtdResponse(itemPedido, carrinho);
+
+            }
+
+            throw new ArgumentException("O item do pedido não foi encontrado");
         }
     }
 }

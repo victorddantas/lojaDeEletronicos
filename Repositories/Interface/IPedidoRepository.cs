@@ -8,6 +8,6 @@ namespace mvc.Repositories.Interface
         Pedido GetPedido();
         public int? GetPedidoId();
         public void setPedidoId(int pedidoId);
-       
+        UpdateQtdResponse updateQtd(ItemPedido itemPedido);
     }
 }

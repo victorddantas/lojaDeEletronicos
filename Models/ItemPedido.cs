@@ -18,15 +18,22 @@ namespace mvc.Models
         [Required]
         [DataMember]
         public int Quantidade { get; private set; }
-        
+
+
         [Required]
         [DataMember]
         public decimal PrecoUnitario { get; private set; }
+
+
+        [DataMember]
+        public decimal Subtotal => Quantidade * PrecoUnitario;
+
 
         public ItemPedido()
         {
 
         }
+
 
         public ItemPedido(Pedido pedido, Produto produto, int quantidade, decimal precoUnitario)
         {
@@ -35,6 +42,7 @@ namespace mvc.Models
             Quantidade = quantidade;
             PrecoUnitario = precoUnitario;
         }
+
 
         //método para atualizar o valor do campo Quantidade 
         internal void UpdateQtdItem(int quantidade)

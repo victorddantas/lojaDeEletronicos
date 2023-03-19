@@ -35,7 +35,7 @@
                     <img class="img-produto-carrinho" src="/images/produtos/(@item.Produto.Codigo).jpg" />
                 </div>
                 <div class="col-md-3">@item.Produto.Nome</div>
-                <div class="col-md-2 text-center">@item.Produto.Preco</div>
+                <div class="col-md-2 text-center">R$ @(item.PrecoUnitario)</div>
                 <div class="col-md-2 text-center">
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -64,13 +64,13 @@
         <div class="row">
             <div class="col-md-10">
                 <span numero-itens>
-                    Total: @Model.Itens.Count()
+                    Total: @(Model.Itens.Count())
                     itens
                 </span>
             </div>
             <div class="col-md-2">
                 Total: R$ <span class="pull-right" total>
-                   @Model.Total
+                   @(Model.Total)
                 </span>
             </div>
         </div>

@@ -56,9 +56,12 @@ namespace mvc.Controllers
         }
 
         [HttpPost]
-        public void UpdateQtd([FromBody]ItemPedido itemPedido) //para enviar  as requisições, no parâmetro será enviado um objeto que conterá o id e a quantidade do item (nesse caso será passado no corpo da requisição [FromBody])
+        public UpdateQtdResponse UpdateQtd([FromBody]ItemPedido itemPedido) //para enviar  as requisições, no parâmetro será enviado um objeto que conterá o id e a quantidade do item (nesse caso será passado no corpo da requisição [FromBody])
         {
-            _itemPedidoRepository.updateQtd(itemPedido);
+
+            //irá retonar para o ajax o itemPedido alaterado 
+           return _pedidoRepository.updateQtd(itemPedido);
+
 
         }
 

@@ -4,6 +4,7 @@ namespace mvc.Repositories.Interface
 {
     public interface IItemPedidoRepository
     {
-        void updateQtd(ItemPedido itemPedido);
+        ItemPedido GetItemPedido(int itemPedidodId);
+        void RemoveItemPedido(int itemPedidoId);
     }
 }
