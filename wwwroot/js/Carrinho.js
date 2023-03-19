@@ -7,7 +7,7 @@ class Carrinho {
         let data = this.getData(btn);
         data.Quantidade++;
         this.postCarrinho(data);
-        window.location.reload(true);
+         window.location.reload(true);
        
        /* debugger;*/
 
@@ -15,7 +15,7 @@ class Carrinho {
     clickQtdDecremento(btn) {
 
         let data = this.getData(btn);
-        if (data.Quantidade > '1') {
+        if (data.Quantidade > '0') {
             data.Quantidade--;
             this.postCarrinho(data);
         }
@@ -67,18 +67,19 @@ class Carrinho {
 
         }).done(function (response) {
             let itemPedido = response._itemPedido; //obtendo o itemPedido
-           // debugger
+            debugger
             let linhaDoItem = $('[item-Id=' + itemPedido.id + ']') //acessando linha onde receberemos o id do produto ao clicar no botão
-           // debugger
+            debugger
             linhaDoItem.find('input').val(itemPedido.quantidade);//obtendo quantidade atual do item no input que está abaixo da hierarquia
             linhaDoItem.find('[subtotal]').html((itemPedido.subtotal).duasCasas());//acessando linha onde está o subtotal e alterando html
 
-            let carrinhoViewModel = response.carrinho;
+            let carrinhoViewModel = response._carrinhoViewModel;
             $('[numero-itens]').html('Total: ' + carrinhoViewModel.itens.length + ' itens');//acessando linha onde está o numero-itens e alterando html 
             $('[total]').html((carrinhoViewModel.total).duasCasas());
 
             if (itemPedido.quantidade == 0) {
                 linhaDoItem.remove();
+                window.location.reload(true);
             }
         });
     }
