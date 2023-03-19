@@ -46,7 +46,18 @@ namespace mvc.Controllers
         }
         public IActionResult Cadastro()
         {
-            return View();
+            //obtendo o pedido para acessar o objeto cadastro 
+           var pedido =  _pedidoRepository.GetPedido();
+
+
+            //o cliente só pode acessar a página de cadastro através do pedido 
+            if (pedido == null)
+            {
+                RedirectToAction("Principal");
+            }
+
+            //retornando a view de cadastro 
+            return View(pedido.Cadastro);
         }
         public IActionResult Resumo()
         {
