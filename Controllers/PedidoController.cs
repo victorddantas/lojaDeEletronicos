@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using mvc.Models;
+using mvc.Models.ViewModels;
 using mvc.Repositories.Interface;
+using System.Collections.Generic;
 
 namespace mvc.Controllers
 {
@@ -32,8 +34,15 @@ namespace mvc.Controllers
                 _pedidoRepository.AddItem(codigo);
                
             }
-            Pedido pedido = _pedidoRepository.GetPedido();
-            return View(pedido.Itens);
+
+            //Como o controller retorna as view, é necessário criar uma instância da viweModel, passando como parâmetro (definido no construtor da viewModel) uma variável
+            //do tipo necessário(no caso abaixo uma lista de item pedido).
+
+            List<ItemPedido> itens = _pedidoRepository.GetPedido().Itens;
+
+            //passando a viewModel que irá receber uma lita de intemPedido 
+            CarrinhoViewModel carrinhoViewModel = new CarrinhoViewModel(itens);
+            return View(carrinhoViewModel);
         }
         public IActionResult Cadastro()
         {

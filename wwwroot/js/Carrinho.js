@@ -7,7 +7,7 @@ class Carrinho {
         let data = this.getData(btn);
         data.Quantidade++;
         this.postCarrinho(data);
-        window.location.reload(true);
+       
        /* debugger;*/
 
     }
@@ -58,7 +58,7 @@ class Carrinho {
             contentType: 'application/json',
             data: JSON.stringify(data)
 
-        });
+        }).done(function (response));
     }
     
 }
