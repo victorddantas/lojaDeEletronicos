@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Intrinsics.X86;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace mvc.Repositories
 {
@@ -28,7 +29,10 @@ namespace mvc.Repositories
             {
                 itemPedidoDB.UpdateQtdItem(itemPedido.Quantidade);
 
+               
                 _context.SaveChanges();
+
+           
             }
             else
             {

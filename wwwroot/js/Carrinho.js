@@ -7,6 +7,7 @@ class Carrinho {
         let data = this.getData(btn);
         data.Quantidade++;
         this.postCarrinho(data);
+        window.location.reload(true);
        /* debugger;*/
 
     }
@@ -18,8 +19,11 @@ class Carrinho {
             this.postCarrinho(data);
         }
         else {
+
             alert("A quantidade mínima é 1")
+
         }
+        window.location.reload(true);
        
 
     }
