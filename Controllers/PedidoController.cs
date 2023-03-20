@@ -61,6 +61,8 @@ namespace mvc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]//atributo de token anti-falsificação - especifica que a class ou método onde este atributo é aplicado faz uma validação do token anti-falsificação.
+                                  //Se esse token não estiver disponível, ou se o token for inválido, a validação irá falhar e o método da action não será executado.
         public IActionResult Resumo(Cadastro cadastro)
         {
             if (ModelState.IsValid)
