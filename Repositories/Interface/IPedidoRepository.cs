@@ -9,5 +9,6 @@ namespace mvc.Repositories.Interface
         public int? GetPedidoId();
         public void setPedidoId(int pedidoId);
         UpdateQtdResponse updateQtd(ItemPedido itemPedido);
+        Pedido UpdateCadastro(Cadastro cadastro);
     }
 }

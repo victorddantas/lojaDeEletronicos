@@ -13,12 +13,13 @@ namespace mvc.Repositories
         //Criando campo para acessar o objeto da sessão para obter o id passado na sessão
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IItemPedidoRepository _itemPedidoRepository;
+        private readonly ICadastroRepository _cadastroRepository;
 
-        public PedidoRepository(mvcContext context, IHttpContextAccessor contextAccessor, IItemPedidoRepository itemPedidoRepository) : base(context)
+        public PedidoRepository(mvcContext context, IHttpContextAccessor contextAccessor, IItemPedidoRepository itemPedidoRepository, ICadastroRepository cadastroRepository) : base(context)
         {
             this._contextAccessor = contextAccessor;
             this._itemPedidoRepository = itemPedidoRepository;
-
+            this._cadastroRepository = cadastroRepository;
         }
 
 
@@ -41,7 +42,7 @@ namespace mvc.Repositories
         {
             //consulta a tabela de pedidos e verifica se o id consta lá, se não cria um novo pedido e retornar
             var pedidoId = GetPedidoId();
-            var pedido = _produtos.Include(p => p.Itens).ThenInclude(i => i.Produto).Where(p => p.Id == pedidoId).SingleOrDefault(); //o SingleOrDefault irá trazer o dado caso exista, se não trará nulo sem dar erro
+            var pedido = _produtos.Include(p => p.Itens).ThenInclude(i => i.Produto).Include(p => p.Cadastro).Where(p => p.Id == pedidoId).SingleOrDefault(); //o SingleOrDefault irá trazer o dado caso exista, se não trará nulo sem dar erro
 
             if (pedido == null)
             {
@@ -112,6 +113,15 @@ namespace mvc.Repositories
             }
 
             throw new ArgumentException("O item do pedido não foi encontrado");
+        }
+
+        //método que irá atualizar o cadastro 
+        public Pedido UpdateCadastro(Cadastro cadastro)
+        {
+            //obtendo o cadastroId através do pedido 
+            var pedido = GetPedido();
+            _cadastroRepository.Update(pedido.Cadastro.Id, cadastro);
+            return pedido;
         }
     }
 }
