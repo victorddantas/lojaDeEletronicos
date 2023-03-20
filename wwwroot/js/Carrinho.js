@@ -56,6 +56,13 @@ class Carrinho {
 
     postCarrinho(data) {
 
+        //definido o acesso ao campo do tokem anti-falsificação
+        let token = $('[name=__RequestVerificationToken]').val();
+
+        //atribuindo o token obtido ao cabeçalho da requisção ajax 
+        let headers = {};
+        headers['RequestVerificationToken'] = token;
+
          //criando ajax que será utilizado na requisição 
 
         $.ajax({
@@ -63,7 +70,8 @@ class Carrinho {
             url: '/pedido/UpdateQtd',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            headers: headers //passamdo o token ao cabeçalho
 
         }).done(function (response) {
             let itemPedido = response._itemPedido; //obtendo o itemPedido
